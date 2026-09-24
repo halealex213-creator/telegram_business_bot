@@ -98,7 +98,7 @@
             <h4 class="font-bold text-xs text-white uppercase">PVC Banners</h4>
             <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 450.00 <span class="text-[10px] text-slate-400">/ m²</span></p>
           </div>
-          <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-xl">
+          <button onclick="orderProduct('PVC Banners')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-xl">
             Order Now
           </button>
         </div>
@@ -112,7 +112,7 @@
             <h4 class="font-bold text-xs text-white uppercase">Poly Mailer Bags</h4>
             <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 12.00 <span class="text-[10px] text-slate-400">/ pc</span></p>
           </div>
-          <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-xl">
+          <button onclick="orderProduct('Poly Mailer Bags')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-xl">
             Order Now
           </button>
         </div>
@@ -189,7 +189,7 @@
           <textarea id="notes" rows="3" placeholder="Any specific requirements or delivery location..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
         </div>
 
-        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-sm py-3.5 rounded-xl uppercase tracking-wider transition mt-2">
+        <button type="submit" id="submitBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-sm py-3.5 rounded-xl uppercase tracking-wider transition mt-2">
           Submit Order Request
         </button>
       </form>
@@ -218,7 +218,7 @@
           <h4 class="font-bold text-xs text-white uppercase">PVC Banners</h4>
           <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 450.00 / m²</p>
         </div>
-        <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl">Order</button>
+        <button onclick="orderProduct('PVC Banners')" class="mt-2 w-full bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl">Order</button>
       </div>
 
       <!-- Product Card 2 -->
@@ -230,7 +230,7 @@
           <h4 class="font-bold text-xs text-white uppercase">Poly Mailer Bags</h4>
           <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 12.00 / pc</p>
         </div>
-        <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl">Order</button>
+        <button onclick="orderProduct('Poly Mailer Bags')" class="mt-2 w-full bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl">Order</button>
       </div>
     </div>
   </div>
@@ -269,8 +269,10 @@
   </div>
 
   <script>
+    // Initialize Telegram WebApp SDK
     const tg = window.Telegram.WebApp;
     tg.expand();
+    tg.ready();
 
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -282,21 +284,34 @@
       document.getElementById('tab-' + tabName).classList.remove('hidden');
       document.getElementById('nav-' + tabName).classList.remove('text-slate-400');
       document.getElementById('nav-' + tabName).classList.add('text-amber-500');
+      window.scrollTo(0, 0);
+    }
+
+    function orderProduct(productName) {
+      document.getElementById('items').value = productName;
+      switchTab('request');
     }
 
     function submitForm(event) {
       event.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Submitting Order...";
+
       const items = document.getElementById('items').value;
       const quantity = document.getElementById('quantity').value;
       const phone = document.getElementById('phone').value;
       const notes = document.getElementById('notes').value;
 
       const data = { items, quantity, phone, notes };
-      
+
       if (tg.sendData) {
         tg.sendData(JSON.stringify(data));
       } else {
         alert("Request Submitted Successfully!");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Order Request";
       }
     }
   </script>
