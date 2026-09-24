@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Butterfly Ethiopia General Trading PLC</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="pb-20">
+
+  <!-- TOP HEADER -->
+  <div class="p-4 flex items-center justify-between border-b border-slate-800">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-xs">
+        🦋
+      </div>
+      <h1 class="font-bold text-sm text-white tracking-wide">Butterfly Ethiopia PLC</h1>
+    </div>
+    <div class="text-slate-400 text-lg">
+      <i class="fa-regular fa-moon"></i>
+    </div>
+  </div>
+
+  <!-- TAB 1: HOME PAGE -->
+  <div id="tab-home" class="tab-content">
+    <!-- Promotional Banner -->
+    <div class="p-4">
+      <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-gradient-to-r from-blue-900 to-indigo-900 border border-slate-700 shadow-lg flex items-center p-5">
+        <div>
+          <span class="bg-blue-600 text-white text-[10px] uppercase font-bold px-2 py-0.5 rounded-full">Official Market</span>
+          <h2 class="text-xl font-extrabold text-white mt-2">በብዛት እናቀርባለን!</h2>
+          <p class="text-xs text-slate-300 mt-1">Commercial Printing, Packaging & Import Services</p>
+          <button onclick="switchTab('request')" class="mt-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition">
+            Get Custom Quote
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal Category Icons -->
+    <div class="px-4 py-2">
+      <div class="flex gap-4 overflow-x-auto no-scrollbar py-2">
+        <div onclick="switchTab('categories')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+          <div class="w-16 h-16 rounded-full bg-slate-800 border-2 border-blue-500 p-1 flex items-center justify-center overflow-hidden">
+            <i class="fa-solid fa-print text-blue-400 text-xl"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-slate-300 mt-1">PRINTING</span>
+        </div>
+        <div onclick="switchTab('categories')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+          <div class="w-16 h-16 rounded-full bg-slate-800 border-2 border-amber-500 p-1 flex items-center justify-center overflow-hidden">
+            <i class="fa-solid fa-box-open text-amber-400 text-xl"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-slate-300 mt-1">PACKAGING</span>
+        </div>
+        <div onclick="switchTab('categories')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+          <div class="w-16 h-16 rounded-full bg-slate-800 border-2 border-emerald-500 p-1 flex items-center justify-center overflow-hidden">
+            <i class="fa-solid fa-layer-group text-emerald-400 text-xl"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-slate-300 mt-1">SILK SCREEN</span>
+        </div>
+        <div onclick="switchTab('categories')" class="flex flex-col items-center flex-shrink-0 cursor-pointer">
+          <div class="w-16 h-16 rounded-full bg-slate-800 border-2 border-purple-500 p-1 flex items-center justify-center overflow-hidden">
+            <i class="fa-solid fa-ship text-purple-400 text-xl"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-slate-300 mt-1">IMPORT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid: Today's Deals -->
+    <div class="p-4">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-red-500 font-extrabold tracking-wider text-sm uppercase">Today's Featured Offers</h3>
+        <span onclick="switchTab('products')" class="text-slate-400 text-xs cursor-pointer">See all</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Item 1 -->
+        <div class="bg-slate-800/80 rounded-2xl p-3 border border-slate-700/60 flex flex-col justify-between">
+          <div class="w-full h-32 rounded-xl bg-slate-700 overflow-hidden mb-2">
+            <img src="assets/banner.jpg" onerror="this.src='https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=400'" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-white uppercase">PVC Banners</h4>
+            <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 450.00 <span class="text-[10px] text-slate-400">/ m²</span></p>
+          </div>
+          <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-xl">
+            Order Now
+          </button>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="bg-slate-800/80 rounded-2xl p-3 border border-slate-700/60 flex flex-col justify-between">
+          <div class="w-full h-32 rounded-xl bg-slate-700 overflow-hidden mb-2">
+            <img src="assets/packaging.jpg" onerror="this.src='https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400'" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-white uppercase">Poly Mailer Bags</h4>
+            <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 12.00 <span class="text-[10px] text-slate-400">/ pc</span></p>
+          </div>
+          <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs py-2 rounded-xl">
+            Order Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: CATEGORIES PAGE -->
+  <div id="tab-categories" class="tab-content hidden p-4">
+    <h2 class="text-lg font-bold text-white mb-4">Service Categories</h2>
+    <div class="space-y-3">
+      <div onclick="switchTab('products')" class="p-4 rounded-xl bg-slate-800 border border-slate-700 flex justify-between items-center cursor-pointer">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-print text-blue-400 text-xl"></i>
+          <div>
+            <h3 class="font-bold text-sm text-white">Commercial Printing & Branding</h3>
+            <p class="text-xs text-slate-400">Banners, stickers, T-shirts, mugs, booklets</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-500"></i>
+      </div>
+
+      <div onclick="switchTab('products')" class="p-4 rounded-xl bg-slate-800 border border-slate-700 flex justify-between items-center cursor-pointer">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-box-open text-amber-400 text-xl"></i>
+          <div>
+            <h3 class="font-bold text-sm text-white">Packaging Solutions</h3>
+            <p class="text-xs text-slate-400">Poly mailers, spice packaging, custom labels</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-500"></i>
+      </div>
+
+      <div onclick="switchTab('products')" class="p-4 rounded-xl bg-slate-800 border border-slate-700 flex justify-between items-center cursor-pointer">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-layer-group text-emerald-400 text-xl"></i>
+          <div>
+            <h3 class="font-bold text-sm text-white">Silk Screen Printing</h3>
+            <p class="text-xs text-slate-400">Flatbed screen printing on items & materials</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-500"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: REQUEST QUOTE FORM -->
+  <div id="tab-request" class="tab-content hidden p-4">
+    <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700">
+      <div class="text-center mb-5">
+        <span class="text-2xl">📝</span>
+        <h2 class="text-lg font-extrabold text-white uppercase mt-1">Order / Quote Request</h2>
+        <p class="text-xs text-slate-400">Fill in your specifications for immediate processing.</p>
+      </div>
+
+      <form id="quoteForm" onsubmit="submitForm(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">What items do you need?</label>
+          <input type="text" id="items" placeholder="e.g. 500 Custom Poly Mailers & 100 Stickers" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Quantity & Specs</label>
+          <input type="text" id="quantity" placeholder="e.g. 500 pcs, A4 size, 2-color print" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Phone Number</label>
+          <input type="tel" id="phone" placeholder="e.g. +251 911 000 000" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Additional Details (Optional)</label>
+          <textarea id="notes" rows="3" placeholder="Any specific requirements or delivery location..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-sm py-3.5 rounded-xl uppercase tracking-wider transition mt-2">
+          Submit Order Request
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TAB 4: TRACK ORDERS -->
+  <div id="tab-orders" class="tab-content hidden p-4">
+    <div class="mt-10 flex flex-col items-center justify-center p-8 bg-slate-800/50 rounded-2xl border border-slate-700/60 text-center">
+      <div class="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center text-3xl mb-3">📦</div>
+      <h3 class="font-extrabold text-white text-base uppercase">No Orders Found</h3>
+      <p class="text-xs text-slate-400 mt-1">You haven't placed any order requests yet.</p>
+    </div>
+  </div>
+
+  <!-- TAB 5: ALL PRODUCTS -->
+  <div id="tab-products" class="tab-content hidden p-4">
+    <h2 class="text-lg font-bold text-white mb-4">All Offerings</h2>
+    <div class="grid grid-cols-2 gap-3">
+      <!-- Product Card 1 -->
+      <div class="bg-slate-800/80 rounded-2xl p-3 border border-slate-700/60 flex flex-col justify-between">
+        <div class="w-full h-32 rounded-xl bg-slate-700 overflow-hidden mb-2">
+          <img src="assets/banner.jpg" onerror="this.src='https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=400'" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-white uppercase">PVC Banners</h4>
+          <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 450.00 / m²</p>
+        </div>
+        <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl">Order</button>
+      </div>
+
+      <!-- Product Card 2 -->
+      <div class="bg-slate-800/80 rounded-2xl p-3 border border-slate-700/60 flex flex-col justify-between">
+        <div class="w-full h-32 rounded-xl bg-slate-700 overflow-hidden mb-2">
+          <img src="assets/packaging.jpg" onerror="this.src='https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400'" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-white uppercase">Poly Mailer Bags</h4>
+          <p class="text-red-400 font-extrabold text-sm mt-0.5">Br 12.00 / pc</p>
+        </div>
+        <button onclick="switchTab('request')" class="mt-2 w-full bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl">Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING CHAT BUTTON -->
+  <a href="https://t.me/amanuel_alemayehu" target="_blank" class="fixed bottom-20 right-4 w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center text-xl shadow-lg border-2 border-slate-900 z-40">
+    <i class="fa-solid fa-comment-dots"></i>
+  </a>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <div class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 py-2.5 px-4 flex justify-between items-center z-50">
+    <button onclick="switchTab('home')" id="nav-home" class="nav-btn text-amber-500 flex flex-col items-center">
+      <i class="fa-solid fa-house text-lg"></i>
+      <span class="text-[10px] font-semibold mt-1">Home</span>
+    </button>
+
+    <button onclick="switchTab('categories')" id="nav-categories" class="nav-btn text-slate-400 flex flex-col items-center">
+      <i class="fa-solid fa-folder text-lg"></i>
+      <span class="text-[10px] font-semibold mt-1">Categories</span>
+    </button>
+
+    <button onclick="switchTab('request')" id="nav-request" class="nav-btn text-slate-400 flex flex-col items-center">
+      <i class="fa-solid fa-paper-plane text-lg"></i>
+      <span class="text-[10px] font-semibold mt-1">Request</span>
+    </button>
+
+    <button onclick="switchTab('orders')" id="nav-orders" class="nav-btn text-slate-400 flex flex-col items-center">
+      <i class="fa-solid fa-cart-shopping text-lg"></i>
+      <span class="text-[10px] font-semibold mt-1">Track Order</span>
+    </button>
+
+    <button onclick="switchTab('products')" id="nav-products" class="nav-btn text-slate-400 flex flex-col items-center">
+      <i class="fa-solid fa-box text-lg"></i>
+      <span class="text-[10px] font-semibold mt-1">Products</span>
+    </button>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('text-amber-500');
+        el.classList.add('text-slate-400');
+      });
+
+      document.getElementById('tab-' + tabName).classList.remove('hidden');
+      document.getElementById('nav-' + tabName).classList.remove('text-slate-400');
+      document.getElementById('nav-' + tabName).classList.add('text-amber-500');
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      const items = document.getElementById('items').value;
+      const quantity = document.getElementById('quantity').value;
+      const phone = document.getElementById('phone').value;
+      const notes = document.getElementById('notes').value;
+
+      const data = { items, quantity, phone, notes };
+      
+      if (tg.sendData) {
+        tg.sendData(JSON.stringify(data));
+      } else {
+        alert("Request Submitted Successfully!");
+      }
+    }
+  </script>
+</body>
+</html>
