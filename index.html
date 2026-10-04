@@ -268,7 +268,7 @@
     </button>
   </div>
 
-  <script>
+ <script>
   const tg = window.Telegram.WebApp;
   tg.expand();
   tg.ready();
@@ -291,31 +291,63 @@
     switchTab('request');
   }
 
-  function submitForm(event) {
+  async function submitForm(event) {
     event.preventDefault();
 
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting Order...";
+    submitBtn.innerText = "SUBMITTING ORDER...";
 
     const items = document.getElementById('items').value;
     const quantity = document.getElementById('quantity').value;
     const phone = document.getElementById('phone').value;
     const notes = document.getElementById('notes').value;
 
-    const data = { items, quantity, phone, notes };
+    const payload = { items, quantity, phone, notes };
 
+    // 1. Try Native Telegram sendData (Works when opened via Keyboard Button)
     try {
       if (tg && tg.sendData) {
-        tg.sendData(JSON.stringify(data));
+        tg.sendData(JSON.stringify(payload));
         tg.close();
-      } else {
-        alert("Please open this app inside Telegram using the keyboard menu button.");
-        submitBtn.disabled = false;
-        submitBtn.innerText = "SUBMIT ORDER REQUEST";
+        return;
       }
     } catch (e) {
-      alert("Error sending order: " + e.message);
+      console.warn("tg.sendData unavailable, falling back to direct API submission:", e);
+    }
+
+    // 2. Direct HTTP API Fallback
+    const botToken = "8913696013:AAGt7EocUS4MiAVTraTu1wGtVZBjAVM16Bo";
+    const chatId = "6660149686";
+    const messageText = `🚨 *New Web App Order Request*\n\n` +
+      `📦 *Items:* ${items}\n` +
+      `🔢 *Specs/Qty:* ${quantity}\n` +
+      `📱 *Phone:* ${phone}\n` +
+      `📝 *Notes:* ${notes || 'N/A'}`;
+
+    try {
+      const endpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: messageText,
+          parse_mode: 'Markdown'
+        })
+      });
+
+      const resData = await response.json();
+      if (resData.ok) {
+        alert("✅ Order request submitted successfully!");
+        document.getElementById('quoteForm').reset();
+        if (tg && tg.close) tg.close();
+      } else {
+        alert("Error sending message: " + resData.description);
+      }
+    } catch (err) {
+      alert("Network submission failed: " + err.message);
+    } finally {
       submitBtn.disabled = false;
       submitBtn.innerText = "SUBMIT ORDER REQUEST";
     }
