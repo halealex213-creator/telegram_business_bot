@@ -268,7 +268,7 @@
     </button>
   </div>
 
- <script>
+<script>
   const tg = window.Telegram.WebApp;
   tg.expand();
   tg.ready();
@@ -298,55 +298,48 @@
     submitBtn.disabled = true;
     submitBtn.innerText = "SUBMITTING ORDER...";
 
-    const items = document.getElementById('items').value;
-    const quantity = document.getElementById('quantity').value;
-    const phone = document.getElementById('phone').value;
-    const notes = document.getElementById('notes').value;
+    const payload = {
+      items: document.getElementById('items').value,
+      quantity: document.getElementById('quantity').value,
+      phone: document.getElementById('phone').value,
+      notes: document.getElementById('notes').value
+    };
 
-    const payload = { items, quantity, phone, notes };
-
-    // 1. Try Native Telegram sendData (Works when opened via Keyboard Button)
-    try {
-      if (tg && tg.sendData) {
-        tg.sendData(JSON.stringify(payload));
-        tg.close();
-        return;
-      }
-    } catch (e) {
-      console.warn("tg.sendData unavailable, falling back to direct API submission:", e);
-    }
-
-    // 2. Direct HTTP API Fallback
-    const botToken = "8913696013:AAGt7EocUS4MiAVTraTu1wGtVZBjAVM16Bo";
-    const chatId = "6660149686";
-    const messageText = `🚨 *New Web App Order Request*\n\n` +
-      `📦 *Items:* ${items}\n` +
-      `🔢 *Specs/Qty:* ${quantity}\n` +
-      `📱 *Phone:* ${phone}\n` +
-      `📝 *Notes:* ${notes || 'N/A'}`;
+    // Replace this with your live server URL or local tunnel URL
+    const BACKEND_URL = "https://happy-parents-decide.loca.lt";
 
     try {
-      const endpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;
-      const response = await fetch(endpoint, {
+      // 1. Try sending to Python Flask backend
+      const response = await fetch(BACKEND_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: messageText,
-          parse_mode: 'Markdown'
-        })
+        body: JSON.stringify(payload)
       });
 
-      const resData = await response.json();
-      if (resData.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         alert("✅ Order request submitted successfully!");
         document.getElementById('quoteForm').reset();
-        if (tg && tg.close) tg.close();
+        
+        if (tg && tg.close) {
+          tg.close();
+        }
       } else {
-        alert("Error sending message: " + resData.description);
+        alert("Submission error: " + (result.error || "Unknown server error"));
       }
     } catch (err) {
-      alert("Network submission failed: " + err.message);
+      // Fallback: If HTTP endpoint fails, try native tg.sendData if open via keyboard
+      if (tg && tg.sendData) {
+        try {
+          tg.sendData(JSON.stringify(payload));
+          tg.close();
+          return;
+        } catch (e) {
+          console.error("sendData fallback failed:", e);
+        }
+      }
+      alert("Network Error: Could not connect to the backend server.");
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerText = "SUBMIT ORDER REQUEST";
