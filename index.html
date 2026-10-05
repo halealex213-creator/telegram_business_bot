@@ -291,60 +291,50 @@
     switchTab('request');
   }
 
-  async function submitForm(event) {
-    event.preventDefault();
+ async function submitForm(event) {
+  event.preventDefault();
 
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = "SUBMITTING ORDER...";
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerText = "SUBMITTING ORDER...";
 
-    const payload = {
-      items: document.getElementById('items').value,
-      quantity: document.getElementById('quantity').value,
-      phone: document.getElementById('phone').value,
-      notes: document.getElementById('notes').value
-    };
+  const payload = {
+    items: document.getElementById('items').value,
+    quantity: document.getElementById('quantity').value,
+    phone: document.getElementById('phone').value,
+    notes: document.getElementById('notes').value
+  };
 
-    // Replace this with your live server URL or local tunnel URL
-    const BACKEND_URL = "https://happy-parents-decide.loca.lt";
+  // Replace with your localtunnel URL
+ const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.protocol === 'file:')
+  ? 'http://localhost:5000/api/submit-order'
+  : 'https://fine-rules-talk.loca.lt/api/submit-order';
+  try {
+    const response = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'bypass-tunnel-reminder': 'true'
+      },
+      body: JSON.stringify(payload)
+    });
 
-    try {
-      // 1. Try sending to Python Flask backend
-      const response = await fetch(BACKEND_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+    const result = await response.json();
 
-      const result = await response.json();
-
-      if (result.success) {
-        alert("✅ Order request submitted successfully!");
-        document.getElementById('quoteForm').reset();
-        
-        if (tg && tg.close) {
-          tg.close();
-        }
-      } else {
-        alert("Submission error: " + (result.error || "Unknown server error"));
-      }
-    } catch (err) {
-      // Fallback: If HTTP endpoint fails, try native tg.sendData if open via keyboard
-      if (tg && tg.sendData) {
-        try {
-          tg.sendData(JSON.stringify(payload));
-          tg.close();
-          return;
-        } catch (e) {
-          console.error("sendData fallback failed:", e);
-        }
-      }
-      alert("Network Error: Could not connect to the backend server.");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerText = "SUBMIT ORDER REQUEST";
+    if (result.success) {
+      alert("✅ Order request submitted successfully!");
+      document.getElementById('quoteForm').reset();
+    } else {
+      alert("Submission error: " + (result.error || "Unknown server error"));
     }
+  } catch (err) {
+    console.error("Fetch Error:", err);
+    alert("Network Error: Could not connect to backend.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerText = "SUBMIT ORDER REQUEST";
   }
+}
 </script>
 </body>
 </html>
